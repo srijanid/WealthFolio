@@ -5,10 +5,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 
 # MySQL configurations
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'flaskuser'
-app.config['MYSQL_PASSWORD'] = 'password'
-app.config['MYSQL_DATABASE'] = 'AI_Wealth_Manager'
+app.config['MYSQL_HOST'] = '100.122.226.52'
+app.config['MYSQL_USER'] = 'anwesa'
+app.config['MYSQL_PASSWORD'] = '123'
+app.config['MYSQL_DATABASE'] = 'mydb'
 
 mysql = MySQL(app)
 
