@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
@@ -19,12 +20,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    firstname = db.Column(db.String(80), nullable=False)
-    lastname = db.Column(db.String(80), nullable=False)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
+    UserID = db.Column(db.Integer, primary_key=True)
+    Firstname = db.Column(db.String(80), nullable=False)
+    LastName = db.Column(db.String(80), nullable=False)
+    UserName = db.Column(db.String(80), unique=True, nullable=False)
+    Email = db.Column(db.String(120), unique=True, nullable=False)
+    PasswordHash = db.Column(db.String(200), nullable=False)
     DateOfBirth = db.Column(db.String(80))
     Address = db.Column(db.String(200))
     City = db.Column(db.String(100))
@@ -41,7 +42,7 @@ def home():
 def test_connection():
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT * FROM USERS")
+        cursor.execute("SELECT * FROM users")
         version = cursor.fetchall()
         cursor.close()
         return jsonify({"message": "Connected to MySQL!", "version": version[0]}), 200
@@ -50,56 +51,66 @@ def test_connection():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    data = request.get_json()
-    firstname = data['firstname']
-    lastname = data['lastname']
-    username = data['username']
-    email = data['email']
-    password = data['password']
-
     try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"message": "No data provided"}), 400
+        
+        required_fields = ['FirstName', 'LastName', 'UserName', 'Email', 'PasswordHash']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"message": f"'{field}' is required"}), 400
+
+        FirstName = data['FirstName']
+        LastName = data['LastName']
+        UserName = data['UserName']
+        Email = data['Email']
+        PasswordHash = data['PasswordHash']
+
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        cursor.execute("SELECT * FROM users WHERE Email = %s", (Email,))
         user = cursor.fetchone()
         if user:
             cursor.close()
             return jsonify({"message": "User already exists"}), 409
 
-        hashed_password = generate_password_hash(password, method='sha256')
+        hashed_password = generate_password_hash(PasswordHash, method='pbkdf2:sha256', salt_length=8)
 
         cursor.execute(
-            "INSERT INTO users (firstname, lastname, username, email, password) VALUES (%s, %s, %s, %s, %s)",
-            (firstname, lastname, username, email, hashed_password)
+            "INSERT INTO users (FirstName, LastName, UserName, Email, PasswordHash) VALUES (%s, %s, %s, %s, %s)",
+            (FirstName, LastName, UserName, Email, hashed_password)
         )
         mysql.connection.commit()
         cursor.close()
 
         return jsonify({"message": "User registered successfully"}), 201
+    except KeyError as e:
+        return jsonify({"message": f"Missing key: {str(e)}"}), 400
     except Exception as e:
         return jsonify({"message": "Error occurred", "error": str(e)}), 500
 
 @app.route('/signin', methods=['POST'])
 def signin():
     data = request.get_json()
-    email = data['email']
-    password = data['password']
+    Email = data['Email']
+    PasswordHash = data['PasswordHash']
 
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        cursor.execute("SELECT * FROM users WHERE email = %s", (Email,))
         user = cursor.fetchone()
         cursor.close()
         if not user:
             return jsonify({"message": "User does not exist"}), 404
 
-        if not check_password_hash(user[5], password):
+        if not check_password_hash(user[5], PasswordHash):
             return jsonify({"message": "Invalid password"}), 401
 
         user_data = {
-            "firstname": user[1],
-            "lastname": user[2],
-            "username": user[3],
-            "email": user[4]
+            "FirstName": user[1],
+            "LastName": user[2],
+            "UserName": user[3],
+            "Email": user[4]
         }
 
         return jsonify({"message": "User signed in successfully", "user": user_data}), 200
