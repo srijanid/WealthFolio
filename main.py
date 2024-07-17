@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for, f
 from flask_sqlalchemy import SQLAlchemy
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import time
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -80,6 +80,7 @@ def signup():
             "INSERT INTO users (FirstName, LastName, UserName, Email, PasswordHash) VALUES (%s, %s, %s, %s, %s)",
             (FirstName, LastName, UserName, Email, hashed_password)
         )
+        time.sleep(5)
         mysql.connection.commit()
         cursor.close()
 
