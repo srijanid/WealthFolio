@@ -118,8 +118,8 @@ def signin():
         user_data = {
             "FirstName": user[1],
             "LastName": user[2],
-            "UserName": user[3],
-            "Email": user[4]
+            "UserName": user[15],
+            "Email": user[3]
         }
 
         return jsonify({"message": "User signed in successfully", "user": user_data}), 200
