@@ -95,6 +95,10 @@ def signin():
     Email = data['Email']
     PasswordHash = data['PasswordHash']
 
+    if not all([Email, PasswordHash]):
+        return jsonify({"message": "Email and password are required"}), 400
+
+
     try:
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT * FROM users WHERE email = %s", (Email,))
@@ -103,7 +107,12 @@ def signin():
         if not user:
             return jsonify({"message": "User does not exist"}), 404
 
-        if not check_password_hash(user[5], PasswordHash):
+        stored_password_hash = user[4]
+
+        if not stored_password_hash or not isinstance(stored_password_hash, str):
+            return jsonify({"message": "Invalid stored password hash"}), 500
+
+        if not check_password_hash(stored_password_hash, PasswordHash):
             return jsonify({"message": "Invalid password"}), 401
 
         user_data = {
