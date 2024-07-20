@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for, f
 from flask_sqlalchemy import SQLAlchemy
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 import time
 
 app = Flask(__name__)
@@ -11,15 +12,22 @@ app.secret_key = 'your_secret_key'
 app.config['MYSQL_HOST'] = '100.122.226.52'
 app.config['MYSQL_USER'] = 'anwesa'
 app.config['MYSQL_PASSWORD'] = '123'
-app.config['MYSQL_DB'] = 'mydb'
+app.config['MYSQL_DB'] = 'wealthapp'
 mysql = MySQL(app)
 
 # SQLAlchemy configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://anwesa:123@100.122.226.52/mydb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://anwesa:123@100.122.226.52/wealthapp'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+# JWT configurations
+app.config['JWT_SECRET_KEY'] = 'your_secret_key'  # Change this to a secure key in production
+jwt = JWTManager(app)
+
+# SQLAlchemy User Model
 class User(db.Model):
+    __tablename__ = 'users'
+
     UserID = db.Column(db.Integer, primary_key=True)
     Firstname = db.Column(db.String(80), nullable=False)
     LastName = db.Column(db.String(80), nullable=False)
@@ -55,7 +63,7 @@ def signup():
         data = request.get_json()
         if not data:
             return jsonify({"message": "No data provided"}), 400
-        
+
         required_fields = ['FirstName', 'LastName', 'UserName', 'Email', 'PasswordHash']
         for field in required_fields:
             if field not in data:
@@ -93,22 +101,22 @@ def signup():
 @app.route('/signin', methods=['POST'])
 def signin():
     data = request.get_json()
-    Email = data['Email']
-    PasswordHash = data['PasswordHash']
+    Email = data.get('Email')  # Using get() to safely retrieve JSON data
+    PasswordHash = data.get('PasswordHash')
 
     if not all([Email, PasswordHash]):
         return jsonify({"message": "Email and password are required"}), 400
 
-
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT * FROM users WHERE email = %s", (Email,))
+        cursor.execute("SELECT * FROM users WHERE Email = %s", (Email,))
         user = cursor.fetchone()
         cursor.close()
+
         if not user:
             return jsonify({"message": "User does not exist"}), 404
 
-        stored_password_hash = user[4]
+        stored_password_hash = user[5]  # Assuming PasswordHash is at index 5
 
         if not stored_password_hash or not isinstance(stored_password_hash, str):
             return jsonify({"message": "Invalid stored password hash"}), 500
@@ -116,39 +124,55 @@ def signin():
         if not check_password_hash(stored_password_hash, PasswordHash):
             return jsonify({"message": "Invalid password"}), 401
 
+        # Create access token
+        access_token = create_access_token(identity=user[0])  # Assuming UserID is at index 0
+
+        # Save the token to the database
+        user_obj = User.query.get(user[0])
+        user_obj.Token = access_token
+        db.session.commit()
+
         user_data = {
-            "FirstName": user[1],
-            "LastName": user[2],
-            "UserName": user[15],
-            "Email": user[3]
+            "FirstName": user[1],    # Assuming Firstname is at index 1
+            "LastName": user[2],     # Assuming LastName is at index 2
+            "UserName": user[3],     # Assuming UserName is at index 3
+            "Email": user[4]         # Assuming Email is at index 4
         }
 
-        return jsonify({"message": "User signed in successfully", "user": user_data}), 200
+        return jsonify({"message": "User signed in successfully", "user": user_data, "access_token": access_token}), 200
+
     except Exception as e:
         return jsonify({"message": "An error occurred", "error": str(e)}), 500
 
-@app.route('/profile/<int:user_id>', methods=['GET', 'POST'])
-def profile(user_id):
+@app.route('/profile/<int:user_id>', methods=['POST'])
+@jwt_required()
+def update_profile(user_id):
+    current_user_id = get_jwt_identity()
+    if current_user_id != user_id:
+        return jsonify({"message": "Unauthorized access"}), 401
+
     user = User.query.get_or_404(user_id)
 
-    if request.method == 'POST':
-        user.DateOfBirth = request.form.get('dateofbirth')
-        user.Address = request.form.get('address')
-        user.City = request.form.get('city')
-        user.State = request.form.get('state')
-        user.ZipCode = request.form.get('zipcode')
-        user.Country = request.form.get('country')
-        user.PhoneNumber = request.form.get('phonenumber')
+    data = request.get_json()
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
 
-        try:
-            db.session.commit()
-            flash('Profile updated successfully!', 'success')
-            return redirect(url_for('profile', user_id=user.id))
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Error: {str(e)}', 'danger')
+    # Update user profile fields based on the received data
+    user.DateOfBirth = data.get('DateOfBirth', user.DateOfBirth)
+    user.Address = data.get('Address', user.Address)
+    user.City = data.get('City', user.City)
+    user.State = data.get('State', user.State)
+    user.ZipCode = data.get('ZipCode', user.ZipCode)
+    user.Country = data.get('Country', user.Country)
+    user.PhoneNumber = data.get('PhoneNumber', user.PhoneNumber)
 
-    return render_template('profile.html', user=user)
+    try:
+        db.session.commit()
+        return jsonify({"message": "Profile updated successfully", "user_id": user.UserID}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": "Error updating profile", "error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
