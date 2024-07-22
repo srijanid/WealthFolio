@@ -1,3 +1,5 @@
+import datetime
+import hashlib
 from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_mysqldb import MySQL
@@ -41,6 +43,7 @@ class User(db.Model):
     ZipCode = db.Column(db.String(20))
     Country = db.Column(db.String(100))
     PhoneNumber = db.Column(db.String(20))
+    Token = db.Column(db.String(500))
 
 @app.route('/')
 def home():
@@ -125,7 +128,7 @@ def signin():
             return jsonify({"message": "Invalid password"}), 401
 
         # Create access token
-        access_token = create_access_token(identity=user[0])  # Assuming UserID is at index 0
+        access_token = create_access_token(identity=user[0],expires_delta=datetime.timedelta(minutes=10))  # Assuming UserID is at index 0
 
         # Save the token to the database
         user_obj = User.query.get(user[0])
