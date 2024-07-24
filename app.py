@@ -29,6 +29,7 @@ oauth = OAuth2Provider(app)
 
 # Define the database models
 class User(db.Model):
+    __tablename__ = 'users'
     UserID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     FirstName = db.Column(db.String(50), nullable=False)
     LastName = db.Column(db.String(50), nullable=False)
@@ -50,12 +51,12 @@ class OAuth2Client(db.Model):
     client_id = db.Column(db.String(48), primary_key=True)
     client_secret = db.Column(db.String(120), nullable=False)
     client_metadata = db.Column(db.Text, nullable=False)
-    UserID = db.Column(db.Integer, db.ForeignKey('user.UserID'))
+    UserID = db.Column(db.Integer, db.ForeignKey('users.UserID'))
 
 class OAuth2Token(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     client_id = db.Column(db.String(48), db.ForeignKey('oauth2client.client_id'))
-    UserID = db.Column(db.Integer, db.ForeignKey('user.UserID'))
+    UserID = db.Column(db.Integer, db.ForeignKey('users.UserID'))
     token_type = db.Column(db.String(40))
     access_token = db.Column(db.String(255), unique=True)
     refresh_token = db.Column(db.String(255), unique=True)
@@ -105,25 +106,27 @@ def signup():
     if not data:
         return jsonify({"message": "No data provided"}), 400
 
-    required_fields = ['FirstName', 'LastName', 'Email', 'Password']
+    required_fields = ['FirstName', 'LastName','UserName', 'Email', 'PasswordHash']
     for field in required_fields:
         if field not in data:
             return jsonify({"message": f"'{field}' is required"}), 400
 
     FirstName = data['FirstName']
     LastName = data['LastName']
+    UserName = data['UserName']
     Email = data['Email']
-    Password = data['Password']
+    PasswordHash = data['PasswordHash']
 
     existing_user = User.query.filter_by(Email=Email).first()
     if existing_user:
         return jsonify({"message": "User already exists"}), 409
 
-    hashed_password = generate_password_hash(Password, method='pbkdf2:sha256', salt_length=8)
+    hashed_password = generate_password_hash(PasswordHash, method='pbkdf2:sha256', salt_length=8)
 
     new_user = User(
         FirstName=FirstName,
         LastName=LastName,
+        UserName = UserName,
         Email=Email,
         PasswordHash=hashed_password
     )
@@ -136,15 +139,15 @@ def signup():
 def signin():
     client_id = request.json.get('client_id')
     client_secret = request.json.get('client_secret')
-    username = request.json.get('username')
-    password = request.json.get('password')
+    UserName  = request.json.get('UserName ')
+    PasswordHash = request.json.get('PasswordHash')
 
     client = OAuth2Client.query.filter_by(client_id=client_id, client_secret=client_secret).first()
     if not client:
         return jsonify({"message": "Access denied: Invalid client credentials"}), 401
 
-    user = User.query.filter_by(Email=username).first()
-    if not user or not check_password_hash(user.PasswordHash, password):
+    user = User.query.filter_by(Email=UserName).first()
+    if not user or not check_password_hash(user.PasswordHash, PasswordHash):
         return jsonify({"message": "Invalid credentials"}), 401
 
     access_token = create_access_token(identity=user.UserID)
