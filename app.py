@@ -203,5 +203,4 @@ def update_profile(user_id):
         return jsonify({"message": "Error updating profile", "error": str(e)}), 500
 
 if __name__ == '__main__':
-    db.create_all()
     app.run(debug=True)
