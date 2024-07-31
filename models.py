@@ -48,7 +48,7 @@ class OAuth2Token(db.Model):
     refresh_token_revoked_at = db.Column(db.Integer, nullable=True)  # Allow NULL values
 
 class Category(db.Model):
-    __tablename__ = 'Categories'
+    __tablename__ = 'categories'
     CategoryId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     category_name = db.Column(db.String(50), nullable=False, unique=True)
     Description = db.Column(db.String(255))
@@ -56,7 +56,7 @@ class Category(db.Model):
     UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Transaction(db.Model):
-    __tablename__ = 'Transactions'
+    __tablename__ = 'transactions'
     TransactionId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     UserId = db.Column(db.Integer, db.ForeignKey('Users.UserId'))
     CategoryId = db.Column(db.Integer, db.ForeignKey('Categories.CategoryId'))
@@ -67,7 +67,7 @@ class Transaction(db.Model):
     UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class BillPayment(db.Model):
-    __tablename__ = 'BillPayments'
+    __tablename__ = 'billpayments'
     BillId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     UserId = db.Column(db.Integer, db.ForeignKey('Users.UserId'))
     TransactionId = db.Column(db.Integer, db.ForeignKey('Transactions.TransactionId'))
@@ -80,7 +80,7 @@ class BillPayment(db.Model):
     UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Reminder(db.Model):
-    __tablename__ = 'Reminders'
+    __tablename__ = 'reminders'
     ReminderId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     UserId = db.Column(db.Integer, db.ForeignKey('Users.UserId'))
     BillId = db.Column(db.Integer, db.ForeignKey('BillPayments.BillId'))
@@ -90,7 +90,7 @@ class Reminder(db.Model):
     UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Goal(db.Model):
-    __tablename__ = 'Goals'
+    __tablename__ = 'goals'
     GoalId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     UserId = db.Column(db.Integer, db.ForeignKey('Users.UserId'))
     goal_name = db.Column(db.String(100), nullable=False)
@@ -101,7 +101,7 @@ class Goal(db.Model):
     UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Budget(db.Model):
-    __tablename__ = 'Budgets'
+    __tablename__ = 'budgets'
     BudgetId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     UserID = db.Column(db.Integer, db.ForeignKey('Users.UserID'))
     CategoryId = db.Column(db.Integer, db.ForeignKey('Categories.CategoryId'))
@@ -115,7 +115,7 @@ class Budget(db.Model):
     UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Receipt(db.Model):
-    __tablename__ = 'Receipts'
+    __tablename__ = 'receipts'
     ReceiptId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     TransactionId = db.Column(db.Integer, db.ForeignKey('Transactions.TransactionId'))
     UserId = db.Column(db.Integer, db.ForeignKey('Users.UserID'))
@@ -126,7 +126,7 @@ class Receipt(db.Model):
     UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Notification(db.Model):
-    __tablename__ = 'Notifications'
+    __tablename__ = 'notifications'
     NotificationId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     UserId = db.Column(db.Integer, db.ForeignKey('Users.UserID'))
     message = db.Column(db.String(255), nullable=False)
