@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 from Queue_manager import request_queue_manager
 from config import Config
 from models import db
-from routes import auth_bp, user_bp,test_bp
+from routes import auth_bp, user_bp,test_bp,transactions_bp,bill_bp,reminders_bp,goals_bp,budget_bp,notifications_bp,receipts_bp,ml_bp
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -25,6 +25,14 @@ def home():
 app.register_blueprint(auth_bp, url_prefix='/auth_redirect')
 app.register_blueprint(user_bp, url_prefix='/user_redirect')
 app.register_blueprint(test_bp, url_prefix='/testing')
+app.register_blueprint(transactions_bp, url_prefix='/transactions')
+app.register_blueprint(bill_bp, url_prefix='/bills')
+app.register_blueprint(reminders_bp, url_prefix='/reminders')
+app.register_blueprint(goals_bp, url_prefix='/goals')
+app.register_blueprint(budget_bp, url_prefix='/budgets')
+app.register_blueprint(notifications_bp, url_prefix='/notifications')
+app.register_blueprint(receipts_bp, url_prefix='/receipts')
+app.register_blueprint(ml_bp, url_prefix='/ml')
 
 @app.route('/queue', methods=['POST'])
 def queue():
