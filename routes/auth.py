@@ -10,9 +10,9 @@ from models import db
 
 
 # Middleware to verify client credentials
-@auth_bp.before_request
+@auth_bp.before_app_request
 def verify_client_credentials():
-    if request.endpoint not in ['auth', 'register', 'signup', 'signin']:
+    if request.endpoint not in ['auth_bp.auth', 'auth_bp.register', 'auth_bp.signup', 'auth_bp.signin']:
         client_id = request.headers.get('Client-ID')
         client_secret = request.headers.get('Client-Secret')
         if not client_id or not client_secret:
