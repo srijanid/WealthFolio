@@ -52,8 +52,8 @@ class Category(db.Model):
     CategoryId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     category_name = db.Column(db.String(50), nullable=False, unique=True)
     Description = db.Column(db.String(255))
-    CreatedAt = db.Column(db.DateTime, default=datetime.utcnow)
-    UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
+    UpdatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
 class Transaction(db.Model):
     __tablename__ = 'transactions'
@@ -63,8 +63,8 @@ class Transaction(db.Model):
     Amount = db.Column(db.Numeric(10, 2), nullable=False)
     TransactionDate = db.Column(db.Date, nullable=False)
     Description = db.Column(db.String(255))
-    CreatedAt = db.Column(db.DateTime, default=datetime.utcnow)
-    UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
+    UpdatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
 class BillPayment(db.Model):
     __tablename__ = 'billpayments'
@@ -76,8 +76,8 @@ class BillPayment(db.Model):
     Paid_date = db.Column(db.Date)
     Description = db.Column(db.String(255))
     status = db.Column(db.Enum('Paid', 'Unpaid', 'Pending'), nullable=False, default='Unpaid')
-    CreatedAt = db.Column(db.DateTime, default=datetime.utcnow)
-    UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
+    UpdatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
 class Reminder(db.Model):
     __tablename__ = 'reminders'
@@ -86,8 +86,8 @@ class Reminder(db.Model):
     BillId = db.Column(db.Integer, db.ForeignKey('BillPayments.BillId'))
     reminder_date = db.Column(db.Date, nullable=False)
     message = db.Column(db.String(255), nullable=False)
-    CreatedAt = db.Column(db.DateTime, default=datetime.utcnow)
-    UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
+    UpdatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
 class Goal(db.Model):
     __tablename__ = 'goals'
@@ -97,8 +97,8 @@ class Goal(db.Model):
     target_amount = db.Column(db.Numeric(10, 2), nullable=False)
     saved_amount = db.Column(db.Numeric(10, 2), default=0)
     target_date = db.Column(db.Date, nullable=False)
-    CreatedAt = db.Column(db.DateTime, default=datetime.utcnow)
-    UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
+    UpdatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
 class Budget(db.Model):
     __tablename__ = 'budgets'
@@ -109,10 +109,10 @@ class Budget(db.Model):
     TransactionId = db.Column(db.Integer, db.ForeignKey('Transactions.TransactionId'))
     Amount = db.Column(db.Numeric(10, 2))
     description = db.Column(db.String(255))
-    creation_date = db.Column(db.DateTime, default=datetime.utcnow)
+    creation_date = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
     status = db.Column(db.Enum('Active', 'Inactive'), nullable=False, default='Active')
     amount_pending = db.Column(db.Numeric(10, 2), default=0)
-    UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    UpdatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
 class Receipt(db.Model):
     __tablename__ = 'receipts'
@@ -122,8 +122,8 @@ class Receipt(db.Model):
     Amount = db.Column(db.Numeric(10, 2), nullable=False)
     ReceiptDate = db.Column(db.Date, nullable=False)
     Description = db.Column(db.String(255))
-    CreatedAt = db.Column(db.DateTime, default=datetime.utcnow)
-    UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
+    UpdatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
 class Notification(db.Model):
     __tablename__ = 'notifications'
@@ -131,5 +131,5 @@ class Notification(db.Model):
     UserId = db.Column(db.Integer, db.ForeignKey('Users.UserID'))
     message = db.Column(db.String(255), nullable=False)
     is_read = db.Column(db.Boolean, default=False)
-    CreatedAt = db.Column(db.DateTime, default=datetime.utcnow)
-    UpdatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
+    UpdatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
