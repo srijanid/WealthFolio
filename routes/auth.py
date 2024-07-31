@@ -6,6 +6,7 @@ from models import OAuth2Token, db, OAuth2Client, User
 from flask_jwt_extended import create_access_token, jwt_required
 import Password
 from urllib.parse import urlencode
+from models import db
 
 
 # Middleware to verify client credentials
@@ -21,7 +22,7 @@ def verify_client_credentials():
             return jsonify({"message": "Invalid client credentials"}), 401
 
 # Routes
-@auth_bp.route('/auth')
+@auth_bp.route('/auth', methods=['GET'])
 def auth():
     client_id = str(uuid.uuid4())
     client_secret = str(uuid.uuid4())
