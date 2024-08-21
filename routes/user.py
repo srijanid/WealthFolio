@@ -9,34 +9,49 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 @jwt_required()
 def signout():
     current_user_id = get_jwt_identity()
-    jti = get_jwt()['jti']
+    jti = get_jwt()['jti']  # Get the unique identifier for the JWT
+    # Fetch the token from the database using the current user ID and the JWT identifier
     token = OAuth2Token.query.filter_by(UserID=current_user_id, access_token=jti).first()
 
     if token:
+        # Mark the token as revoked
         token.revoked = True
         token.access_token_revoked_at = int(datetime.datetime.utcnow().timestamp())
         db.session.commit()
 
     return jsonify({"message": "Signed out"}), 200
 
+
 @user_bp.route('/profile/<int:user_id>', methods=['POST'])
 @jwt_required()
 def update_profile(user_id):
     current_user_id = get_jwt_identity()
+    print(f"Current User ID: {current_user_id}")  # Debugging line
+    
+    # Check if the current user is updating their own profile
     if current_user_id != user_id:
         return jsonify({"message": "Unauthorized access"}), 401
 
+    # Get client credentials from the request headers
     client_id = request.headers.get('Client-ID')
     client_secret = request.headers.get('Client-Secret')
+    
+    # Log received client credentials for debugging
+    print(f"Client ID: {client_id}, Client Secret: {client_secret}")  # Debugging line
+
+    # Check if client credentials are provided
     if not client_id or not client_secret:
         return jsonify({"message": "Client credentials required"}), 401
 
-    client = OAuth2Client.query.filter_by(client_id=client_id, client_secret=client_secret).first()
-    if not client:
+    # Verify client credentials
+    client = OAuth2Client.query.filter_by(client_id=client_id).first()
+    if not client or client.client_secret != client_secret:
         return jsonify({"message": "Invalid client credentials"}), 401
 
+    # Retrieve user data from the database
     user = User.query.get_or_404(user_id)
 
+    # Get data from the request body
     data = request.get_json()
     if not data:
         return jsonify({"message": "No data provided"}), 400
@@ -56,5 +71,3 @@ def update_profile(user_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": "Error updating profile", "error": str(e)}), 500
-
-
