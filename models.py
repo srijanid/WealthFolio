@@ -39,7 +39,7 @@ class OAuth2Token(db.Model):
     token_type = db.Column(db.String(40))
     access_token = db.Column(db.String(255), unique=True)
     refresh_token = db.Column(db.String(255), unique=True, nullable=True)  # Allow NULL values
-    refresh_token = db.Column(db.String(255), unique=True)
+    #refresh_token = db.Column(db.String(255), unique=True)
     scope = db.Column(db.Text)
     revoked = db.Column(db.Boolean, default=False)
     issued_at = db.Column(db.Integer)
