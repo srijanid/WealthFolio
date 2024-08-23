@@ -12,13 +12,13 @@ app.secret_key = 'your_secret_key'
 
 # MySQL configurations
 app.config['MYSQL_HOST'] = '100.122.226.52'
-app.config['MYSQL_USER'] = 'anwesa'
-app.config['MYSQL_PASSWORD'] = '123'
+app.config['MYSQL_USER'] = 'Anwesa'
+app.config['MYSQL_PASSWORD'] = 'A123'
 app.config['MYSQL_DB'] = 'wealthapp'
 mysql = MySQL(app)
 
 # SQLAlchemy configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://anwesa:123@100.122.226.52/wealthapp'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Anwesa:A123@100.122.226.52/wealthapp'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
