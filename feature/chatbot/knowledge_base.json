@@ -1,0 +1,689 @@
+{
+    "intents": [
+        {
+            "intent": "Greeting",
+            "examples": [
+                {
+                    "query": "Hello",
+                    "response": "Hello! Welcome to WealthFolio, your AI-based expense tracker. How can I assist you with your finances today? Please tell me about your needs."
+                },
+                {
+                    "query": "Hi",
+                    "response": "Hi there! I'm WealthFolio's chatbot. How can I help you manage your budget today?"
+                },
+                {
+                    "query": "Good morning",
+                    "response": "Good morning! Ready to take control of your finances? How can I assist you today?"
+                },
+                {
+                    "query": "Good evening",
+                    "response": "Good evening! How can I help you with your financial goals today?"
+                },
+                {
+                    "query": "Hey",
+                    "response": "Hey! How can I assist you with your expenses and budgeting today?"
+                },
+                {
+                    "query": "What's up?",
+                    "response": "Not much! I'm here to help you with your budgeting and expense tracking. What can I do for you today?"
+                },
+                {
+                    "query": "How are you?",
+                    "response": "I'm here and ready to help you with your finances. How can I assist you today?"
+                }
+            ]
+        },
+        {
+            "intent": "AboutApp",
+            "examples": [
+                {
+                    "query": "Tell me about your app",
+                    "response": "WealthFolio is an AI-based expense tracker designed to help you manage your finances effortlessly. It offers features like budget setting, expense tracking, and financial goal management."
+                },
+                {
+                    "query": "What does WealthFolio do?",
+                    "response": "WealthFolio helps you track your expenses, set budgets, and achieve financial goals. It provides insights, reminders, and tools to stay on top of your finances."
+                },
+                {
+                    "query": "Explain WealthFolio",
+                    "response": "WealthFolio is designed to be your personal financial assistant. It tracks your expenses, manages your budgets, and offers insights to help you make informed financial decisions."
+                },
+                {
+                    "query": "How does WealthFolio work?",
+                    "response": "WealthFolio integrates with your financial accounts to track spending, set budgets, and analyze your financial habits. It provides personalized insights and reminders to help you stay on track."
+                },
+                {
+                    "query": "What makes WealthFolio unique?",
+                    "response": "WealthFolio combines AI technology with comprehensive financial tracking to offer personalized advice, real-time budget updates, and actionable insights to manage your finances effectively."
+                }
+            ]
+        },
+        {
+            "intent": "BudgetRelatedQueries",
+            "examples": [
+                {
+                    "query": "Set my monthly budget to $[amount].",
+                    "response": "Your monthly budget has been set to $[amount]."
+                },
+                {
+                    "query": "What is my current budget?",
+                    "response": "Your current monthly budget is $[amount]. Let me know if you need to make any changes."
+                },
+                {
+                    "query": "Increase my budget by $[amount].",
+                    "response": "Your budget has been increased by $[amount]."
+                },
+                {
+                    "query": "How much have I spent today?",
+                    "response": "You have spent $[amount] today. Your remaining daily budget is $[amount]."
+                },
+                {
+                    "query": "Show me my monthly spending.",
+                    "response": "Here's a summary of your monthly spending: $[amount] spent out of a $[amount] budget."
+                },
+                {
+                    "query": "How do I set a new budget goal?",
+                    "response": "To set a new budget goal, please provide the amount and the time frame (e.g., monthly or yearly). I'll take care of the rest."
+                },
+                {
+                    "query": "What are my spending categories?",
+                    "response": "Your spending categories include groceries, entertainment, utilities, and transportation. Let me know if you want to view or edit these categories."
+                },
+                {
+                    "query": "Can I adjust my budget for specific categories?",
+                    "response": "Yes, you can adjust your budget for specific categories. Just let me know which categories you want to change and the new amounts."
+                },
+                {
+                    "query": "What\u00e2\u20ac\u2122s the percentage of my budget spent so far?",
+                    "response": "You've spent 80% of your monthly budget so far. Keep an eye on your spending to stay within your limit."
+                },
+                {
+                    "query": "How do I create a budget for the upcoming month?",
+                    "response": "To create a budget for the upcoming month, please provide the total amount you want to allocate and any specific categories or goals you'd like to include."
+                },
+                {
+                    "query": "What is my budget today?",
+                    "response": "Today's budget is Rs. 3000"
+                }
+            ]
+        },
+        {
+            "intent": "Set Budget",
+            "examples": [
+                {
+                    "query": "Set my monthly budget to $[amount].",
+                    "response": "Your monthly budget has been set to $[amount]."
+                },
+                {
+                    "query": "Adjust my weekly budget to $[amount].",
+                    "response": "Your weekly budget has been set to $[amount]."
+                },
+                {
+                    "query": "Change my budget to $[amount] for this quarter.",
+                    "response": "Your budget for this quarter has been set to $[amount]."
+                },
+                {
+                    "query": "Update my annual budget to $[amount].",
+                    "response": "Your annual budget has been updated to $[amount]."
+                }
+            ]
+        },
+        {
+            "intent": "Daily Budget Reminder",
+            "examples": [
+                {
+                    "query": "What is my daily budget reminder?",
+                    "response": "Today's reminder: You have $[amount] left for today. Be mindful of your spending!"
+                },
+                {
+                    "query": "Remind me about my daily budget.",
+                    "response": "I'll remind you each day about your daily budget and let you know if you've exceeded it."
+                },
+                {
+                    "query": "How much have I exceeded my budget by?",
+                    "response": "You have exceeded your daily budget by $[amount] today. Try to manage your expenses to stay within your budget."
+                },
+                {
+                    "query": "Send me a reminder if I go over my daily budget.",
+                    "response": "I will notify you if you exceed your daily budget."
+                },
+                {
+                    "query": "What's my remaining budget for today?",
+                    "response": "You have $[amount] left in your daily budget. Spend wisely!"
+                }
+            ]
+        },
+        {
+            "intent": "Update Budget",
+            "examples": [
+                {
+                    "query": "Increase my budget by $[amount].",
+                    "response": "Your budget has been increased by $[amount]."
+                },
+                {
+                    "query": "Decrease my monthly budget by $[amount].",
+                    "response": "Your monthly budget has been decreased by $[amount]."
+                },
+                {
+                    "query": "Adjust my budget to account for a new expense.",
+                    "response": "Please provide the amount and type of the new expense, and I'll adjust your budget accordingly."
+                },
+                {
+                    "query": "Reset my budget to the default amount.",
+                    "response": "Your budget has been reset to the default amount. Let me know if you need any further adjustments."
+                }
+            ]
+        },
+        {
+            "intent": "RetrieveBankData",
+            "examples": [
+                {
+                    "query": "Retrieve my latest bank statement.",
+                    "response": "I will fetch your latest bank statement for you. Please hold on a moment."
+                },
+                {
+                    "query": "Show my recent transactions.",
+                    "response": "Fetching your recent transactions from the bank. Just a moment, please."
+                },
+                {
+                    "query": "What is my current bank balance?",
+                    "response": "I will retrieve your current bank balance for you shortly."
+                },
+                {
+                    "query": "Update my budget based on recent transactions.",
+                    "response": "I will update your budget based on your recent transactions. Please wait a moment."
+                }
+            ]
+        },
+        {
+            "intent": "Fallback",
+            "examples": [
+                {
+                    "query": "Tell me a joke.",
+                    "response": "It seems like you're asking about something other than budgeting. I'm here to help with budget-related queries. How can I assist with your finances?"
+                },
+                {
+                    "query": "What's the weather like today?",
+                    "response": "I'm focused on helping you manage your budget. Please ask me something related to your finances."
+                },
+                {
+                    "query": "Who won the game last night?",
+                    "response": "I specialize in budgeting and financial advice. Let me know if you need help with that!"
+                },
+                {
+                    "query": "Can you play music?",
+                    "response": "I can't play music, but I can help you with your financial questions. What do you need help with today?"
+                },
+                {
+                    "query": "What's your favorite color?",
+                    "response": "I don't have personal preferences, but I can help you with your budgeting and financial needs. What can I assist you with today?"
+                },
+                {
+                    "query": "Can you sing?",
+                    "response": "No bro, it's not my job. I'm a wealth manager. Let me know if you needed wealth related queries."
+                }
+            ]
+        },
+        {
+            "intent": "AppFeatures",
+            "examples": [
+                {
+                    "query": "What features does WealthFolio have?",
+                    "response": "WealthFolio includes features like credit and debit card management, financial goal setting, customized graphs and reports, cloud synchronization, voice-based transaction entry, receipt scanning, exporting/importing spreadsheets, bill notifications, debt management, and much more."
+                },
+                {
+                    "query": "Tell me about the app's features.",
+                    "response": "Our app offers a variety of features including daily budget reminders, geolocation-based expense tracking, advanced budget forecasting, savings goals, and an AI chatbot for budget literacy."
+                },
+                {
+                    "query": "How can WealthFolio help me manage my expenses?",
+                    "response": "WealthFolio helps manage your expenses by tracking daily spending, setting budgets, providing financial insights, and sending reminders. It also offers features like receipt scanning and cloud backup."
+                },
+                {
+                    "query": "What can I do with the financial calculators?",
+                    "response": "The financial calculators in WealthFolio help you with budgeting, savings calculations, and understanding your financial goals. They provide personalized insights based on your financial data."
+                }
+            ]
+        },
+        {
+            "intent": "Onboarding",
+            "examples": [
+                {
+                    "query": "How do I start using WealthFolio?",
+                    "response": "Welcome to WealthFolio! To get started, you can set your monthly budget, track your expenses, and set financial goals. Let me know if you need help with any specific feature."
+                },
+                {
+                    "query": "What features does WealthFolio offer?",
+                    "response": "WealthFolio offers features like budgeting, expense tracking, financial goal setting, cloud synchronization, and more. Would you like a detailed overview of any specific feature?"
+                },
+                {
+                    "query": "How can I set up my account?",
+                    "response": "To set up your account, follow the on-screen instructions after logging in. You\u00e2\u20ac\u2122ll be able to customize your budget, link accounts, and more."
+                },
+                {
+                    "query": "Tell me about the main dashboard.",
+                    "response": "The main dashboard provides an overview of your financial status, including your budget, recent transactions, and financial goals."
+                }
+            ]
+        },
+        {
+            "intent": "BehavioralAnalysis",
+            "examples": [
+                {
+                    "query": "What features do I use the most?",
+                    "response": "You frequently use the expense tracker and budget setting features. Would you like a summary of your recent activities?"
+                },
+                {
+                    "query": "Show me my recent app activities.",
+                    "response": "You\u00e2\u20ac\u2122ve added several transactions this week and set a new savings goal. Here\u00e2\u20ac\u2122s a summary of your recent activities."
+                },
+                {
+                    "query": "How often do I check my budget?",
+                    "response": "It looks like you review your budget weekly. Would you like to adjust the frequency of these reviews?"
+                },
+                {
+                    "query": "Which feature have I not used recently?",
+                    "response": "It appears you haven\u00e2\u20ac\u2122t used the investment tracking feature recently. Would you like to explore it again?"
+                }
+            ]
+        },
+        {
+            "intent": "TransactionManagement",
+            "examples": [
+                {
+                    "query": "Add a transaction for $[amount] at the grocery store.",
+                    "response": "I\u00e2\u20ac\u2122ve added a transaction of $[amount] at the grocery store. Would you like to categorize this expense?"
+                },
+                {
+                    "query": "Edit my last transaction.",
+                    "response": "Please specify the transaction you\u00e2\u20ac\u2122d like to edit and provide the new details."
+                },
+                {
+                    "query": "Delete a transaction.",
+                    "response": "Please provide the details of the transaction you\u00e2\u20ac\u2122d like to delete, and I\u00e2\u20ac\u2122ll remove it from your records."
+                },
+                {
+                    "query": "Show me all transactions for this month.",
+                    "response": "Here are all your transactions for this month. If you need a summary or details, let me know."
+                }
+            ]
+        },
+        {
+            "intent": "SavingsInvestments",
+            "examples": [
+                {
+                    "query": "Give me tips on saving more money.",
+                    "response": "Consider setting a savings goal and automating transfers to your savings account. Reduce discretionary spending and review your budget regularly."
+                },
+                {
+                    "query": "What are some investment options?",
+                    "response": "Some investment options include stocks, bonds, mutual funds, and real estate. Diversify your investments to manage risk effectively."
+                },
+                {
+                    "query": "How can I start investing?",
+                    "response": "To start investing, set clear financial goals, choose a type of investment, and consider consulting with a financial advisor."
+                },
+                {
+                    "query": "What\u00e2\u20ac\u2122s the best way to save for retirement?",
+                    "response": "Consider contributing to retirement accounts like an IRA or 401(k). Set a savings target and invest in diversified assets."
+                }
+            ]
+        },
+        {
+            "intent": "SubscriptionManagement",
+            "examples": [
+                {
+                    "query": "Track my subscriptions.",
+                    "response": "You have subscriptions to streaming services and magazines. Would you like to review or cancel any of these?"
+                },
+                {
+                    "query": "Cancel my magazine subscription.",
+                    "response": "Your magazine subscription has been canceled. Let me know if you need help with anything else."
+                },
+                {
+                    "query": "Add a new subscription to the list.",
+                    "response": "Please provide details about the new subscription, including the service name and amount."
+                },
+                {
+                    "query": "How much am I spending on subscriptions each month?",
+                    "response": "You\u00e2\u20ac\u2122re currently spending $[amount] per month on subscriptions. Would you like to review or adjust these?"
+                }
+            ]
+        },
+        {
+            "intent": "SeasonalBudgeting",
+            "examples": [
+                {
+                    "query": "Help me budget for the holidays.",
+                    "response": "Consider setting aside a specific amount each month for holiday expenses. Review your budget for gifts, decorations, and travel."
+                },
+                {
+                    "query": "Adjust my budget for summer vacation.",
+                    "response": "I\u00e2\u20ac\u2122ve adjusted your budget to include summer vacation expenses. Plan for travel, accommodations, and activities."
+                },
+                {
+                    "query": "How should I budget for back-to-school shopping?",
+                    "response": "Set a specific budget for back-to-school expenses, including supplies, clothing, and extracurricular activities."
+                },
+                {
+                    "query": "Plan my budget for the upcoming tax season.",
+                    "response": "Set aside funds for tax payments and consider reviewing your financial records to ensure you\u00e2\u20ac\u2122re prepared for tax season."
+                }
+            ]
+        },
+        {
+            "intent": "LifestyleGoals",
+            "examples": [
+                {
+                    "query": "How can I save money on dining out?",
+                    "response": "Try cooking more meals at home and limit dining out to special occasions. Set a specific budget for dining expenses."
+                },
+                {
+                    "query": "I want to save for a new course.",
+                    "response": "Set a savings goal for the course fee and allocate a portion of your monthly budget towards it. Track your progress regularly."
+                },
+                {
+                    "query": "What are some tips for reducing my monthly expenses?",
+                    "response": "Consider cutting back on non-essential spending, reviewing subscriptions, and finding more cost-effective alternatives."
+                },
+                {
+                    "query": "Help me create a budget for a home renovation.",
+                    "response": "Plan for renovation costs by setting a budget for materials, labor, and unexpected expenses. Track your spending to stay within your budget."
+                }
+            ]
+        },
+        {
+            "intent": "EmergencyFund",
+            "examples": [
+                {
+                    "query": "How do I build an emergency fund?",
+                    "response": "Aim to save 3-6 months\u00e2\u20ac\u2122 worth of expenses. Set aside a portion of your income each month and keep the fund in a separate, easily accessible account."
+                },
+                {
+                    "query": "What should be included in an emergency fund?",
+                    "response": "Include expenses such as rent/mortgage, utilities, groceries, and insurance. Ensure the fund covers your essential needs in case of unexpected events."
+                },
+                {
+                    "query": "How much should I have in my emergency fund?",
+                    "response": "It\u00e2\u20ac\u2122s recommended to have 3-6 months of living expenses in your emergency fund to cover unexpected situations."
+                },
+                {
+                    "query": "What are the best ways to grow my emergency fund?",
+                    "response": "Consider setting up automatic transfers to your emergency fund and look for high-interest savings accounts to grow your savings."
+                }
+            ]
+        },
+        {
+            "intent": "IncomeManagement",
+            "examples": [
+                {
+                    "query": "Add a new income source.",
+                    "response": "Please provide details about the new income source, including the amount and frequency, and I\u00e2\u20ac\u2122ll add it for you."
+                },
+                {
+                    "query": "Track my freelance income.",
+                    "response": "I\u00e2\u20ac\u2122ve added your freelance income to your records. You can view it in the income section of the app."
+                },
+                {
+                    "query": "How can I manage multiple income streams?",
+                    "response": "Track each income source separately, allocate funds according to your budget, and review your overall income regularly."
+                },
+                {
+                    "query": "Update my salary information.",
+                    "response": "Please provide the new salary amount and frequency, and I\u00e2\u20ac\u2122ll update your income records accordingly."
+                }
+            ]
+        },
+        {
+            "intent": "MonthlyReports",
+            "examples": [
+                {
+                    "query": "Generate my monthly spending report.",
+                    "response": "Here\u00e2\u20ac\u2122s your monthly spending report: You\u00e2\u20ac\u2122ve spent $[amount] this month with a remaining budget of $[amount]. Review the breakdown for more details."
+                },
+                {
+                    "query": "Show me my monthly budget summary.",
+                    "response": "This month, you allocated $[amount]  for groceries and $[amount] for entertainment. You\u00e2\u20ac\u2122ve spent $[amount]  on groceries and $[amount] on entertainment."
+                },
+                {
+                    "query": "How does my spending this month compare to last month?",
+                    "response": "You\u00e2\u20ac\u2122ve spent $[amount]% more this month compared to last month. Consider reviewing your spending categories to identify areas for improvement."
+                },
+                {
+                    "query": "Provide a detailed report on my spending for the past quarter.",
+                    "response": "Here\u00e2\u20ac\u2122s a detailed report on your spending for the past quarter, including total expenses, budget adherence, and category breakdowns."
+                }
+            ]
+        },
+        {
+            "intent": "CustomReminders",
+            "examples": [
+                {
+                    "query": "Set a reminder for my rent payment.",
+                    "response": "I\u00e2\u20ac\u2122ve set a reminder for your rent payment. You\u00e2\u20ac\u2122ll receive a notification a few days before the due date."
+                },
+                {
+                    "query": "Remind me to review my budget weekly.",
+                    "response": "I\u00e2\u20ac\u2122ll send you a weekly reminder to review your budget and ensure you\u00e2\u20ac\u2122re on track with your financial goals."
+                },
+                {
+                    "query": "Schedule a reminder for my utility bills.",
+                    "response": "Your reminder for utility bills has been scheduled. You\u00e2\u20ac\u2122ll be notified a few days before the due date."
+                },
+                {
+                    "query": "Set a custom alert for my savings goal.",
+                    "response": "I\u00e2\u20ac\u2122ve set an alert to notify you when you reach your savings goal. You\u00e2\u20ac\u2122ll receive a message once the goal is achieved."
+                }
+            ]
+        },
+        {
+            "intent": "UserFeedback",
+            "examples": [
+                {
+                    "query": "How do I provide feedback on the app?",
+                    "response": "You can provide feedback by visiting the 'Settings' section and selecting 'Give Feedback.' We appreciate your suggestions!"
+                },
+                {
+                    "query": "Report a bug in the app.",
+                    "response": "Please describe the issue you\u00e2\u20ac\u2122re experiencing, and we\u00e2\u20ac\u2122ll work to resolve it as soon as possible. You can report bugs through the 'Help' section."
+                },
+                {
+                    "query": "How can I request a new feature?",
+                    "response": "To request a new feature, go to the 'Settings' section and select 'Request Feature.' We welcome your ideas and feedback."
+                },
+                {
+                    "query": "Leave a review for WealthFolio.",
+                    "response": "You can leave a review by visiting the app store page and submitting your feedback. We\u00e2\u20ac\u2122d love to hear your thoughts!"
+                }
+            ]
+        },
+        {
+            "intent": "Daily Report",
+            "examples": [
+                {
+                    "query": "What was my spending on groceries today?",
+                    "response": "Your spending on groceries today was $[groceries_spent]."
+                },
+                {
+                    "query": "How much did I save today?",
+                    "response": "You saved $[savings_today] today."
+                },
+                {
+                    "query": "Can you show me today's spending breakdown by category?",
+                    "response": "Today's spending breakdown:\n- Food: $[food_spent]\n- Entertainment: $[entertainment_spent]\n- Transportation: $[transportation_spent]\n- Others: $[others_spent]"
+                },
+                {
+                    "query": "What is my remaining budget for today?",
+                    "response": "Your remaining budget for today is $[remaining_budget_today]."
+                }
+            ]
+        },
+        {
+            "intent": "Weekly Report",
+            "examples": [
+                {
+                    "query": "How much did I spend on dining out this week?",
+                    "response": "You spent $[dining_out_spent] on dining out this week."
+                },
+                {
+                    "query": "What were my top three expenses this week?",
+                    "response": "Your top three expenses this week were:\n1. $[top_expense_1] - [category_1]\n2. $[top_expense_2] - [category_2]\n3. $[top_expense_3] - [category_3]"
+                },
+                {
+                    "query": "Can you provide a summary of my spending trends this week?",
+                    "response": "This week's spending trends:\n- Total Expenses: $[total_expenses]\n- Highest Spending Day: [highest_spending_day] with $[highest_spending_amount]\n- Categories: [categories_summary]"
+                },
+                {
+                    "query": "How does my spending this week compare to last week?",
+                    "response": "This week's spending was $[current_week_spent], compared to $[last_week_spent] last week. The difference is $[difference]."
+                }
+            ]
+        },
+        {
+            "intent": "Generate Weekly PDF Report",
+            "examples": [
+                {
+                    "query": "Generate a PDF report for weekly spending in [category] for [week] [year].",
+                    "response": "Generating weekly PDF report for [category] in [week] [year].",
+                    "parameters": [
+                        {
+                            "name": "category",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "name": "week",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "name": "year",
+                            "type": "string",
+                            "required": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "intent": "Generate Monthly PDF Report",
+            "examples": [
+                {
+                    "query": "Generate a PDF report for monthly spending in [category] for [month] [year].",
+                    "response": "Generating monthly PDF report for [category] in [month] [year].",
+                    "parameters": [
+                        {
+                            "name": "category",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "name": "month",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "name": "year",
+                            "type": "string",
+                            "required": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "intent": "Generate Yearly PDF Report",
+            "examples": [
+                {
+                    "query": "Generate a PDF report for yearly spending in [category] for [year].",
+                    "response": "Generating yearly PDF report for [category] in [year].",
+                    "parameters": [
+                        {
+                            "name": "category",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "name": "year",
+                            "type": "string",
+                            "required": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "intent": "Generate Weekly Excel Report",
+            "examples": [
+                {
+                    "query": "Create an Excel sheet for weekly expenses in [category] for [week] [year].",
+                    "response": "Creating Excel sheet for weekly expenses in [category] for [week] [year].",
+                    "parameters": [
+                        {
+                            "name": "category",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "name": "week",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "name": "year",
+                            "type": "string",
+                            "required": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "intent": "Generate Monthly Excel Report",
+            "examples": [
+                {
+                    "query": "Create an Excel sheet for monthly expenses in [category] for [month] [year].",
+                    "response": "Creating Excel sheet for monthly expenses in [category] for [month] [year].",
+                    "parameters": [
+                        {
+                            "name": "category",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "name": "month",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "name": "year",
+                            "type": "string",
+                            "required": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "intent": "Generate Yearly Excel Report",
+            "examples": [
+                {
+                    "query": "Create an Excel sheet for yearly expenses in [category] for [year].",
+                    "response": "Creating Excel sheet for yearly expenses in [category] for [year].",
+                    "parameters": [
+                        {
+                            "name": "category",
+                            "type": "string",
+                            "required": true
+                        },
+                        {
+                            "name": "year",
+                            "type": "string",
+                            "required": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
