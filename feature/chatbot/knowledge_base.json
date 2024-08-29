@@ -217,6 +217,10 @@
                 {
                     "query": "What's your favorite color?",
                     "response": "I don't have personal preferences, but I can help you with your budgeting and financial needs. What can I assist you with today?"
+                },
+                {
+                    "query": "Can you sing?",
+                    "response": "No bro, it's not my job. I'm a wealth manager. Let me know if you needed wealth related queries."
                 }
             ]
         },
