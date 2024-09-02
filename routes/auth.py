@@ -7,12 +7,13 @@ from flask_jwt_extended import create_access_token, jwt_required
 import Password
 from urllib.parse import urlencode
 from models import db
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 
 # Middleware to verify client credentials
 @auth_bp.before_app_request
 def verify_client_credentials():
-    if request.endpoint not in ['auth_bp.auth', 'auth_bp.register', 'auth_bp.signup', 'auth_bp.signin','user_bp.signout']:
+    if request.endpoint not in ['auth_bp.auth', 'auth_bp.register', 'auth_bp.signup', 'auth_bp.signin','user_bp.signout','auth_bp.profile','user_bp.profile']:
         client_id = request.headers.get('Client-ID')
         client_secret = request.headers.get('Client-Secret')
         if not client_id or not client_secret:
@@ -170,3 +171,20 @@ def signin():
 
     return jsonify(access_token=access_token),200
 
+@auth_bp.route('/profile', methods=['GET'])
+@jwt_required()
+def get_profile():
+    current_user_id = get_jwt_identity()
+
+    # Retrieve user data from the database
+    user = User.query.get(current_user_id)
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    # Return the user's profile data
+    return jsonify({
+        "username": user.UserName,  # Ensure correct field names
+        "email": user.Email,
+        # Add more fields as needed
+    }), 200
