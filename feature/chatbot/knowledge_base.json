@@ -221,6 +221,10 @@
                 {
                     "query": "Can you sing?",
                     "response": "No bro, it's not my job. I'm a wealth manager. Let me know if you needed wealth related queries."
+                },
+                {
+                    "query": "What is my name?",
+                    "response": "Sorry, I don't know your name. This is an expense trcaker. Let me know how can I help you."
                 }
             ]
         },
