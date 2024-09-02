@@ -23,6 +23,7 @@ class User(db.Model):
     DateOfRegistration = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
     CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
     UpdatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    profile_image = db.Column(db.LargeBinary) 
 
 class OAuth2Client(db.Model):
     __tablename__ = 'oauth2client'
