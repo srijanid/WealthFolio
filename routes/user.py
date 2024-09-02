@@ -51,9 +51,3 @@ def update_profile(user_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": "Error updating profile", "error": str(e)}), 500
-<<<<<<< HEAD
-    
-=======
-
-
->>>>>>> d9fb0f05a052fb99696e583792881a5366d354bb

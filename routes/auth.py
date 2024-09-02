@@ -171,7 +171,6 @@ def signin():
 
     return jsonify(access_token=access_token),200
 
-<<<<<<< HEAD
 @auth_bp.route('/profile', methods=['GET'])
 @jwt_required()
 def get_profile():
@@ -189,7 +188,3 @@ def get_profile():
         "email": user.Email,
         # Add more fields as needed
     }), 200
-=======
-
-
->>>>>>> d9fb0f05a052fb99696e583792881a5366d354bb
