@@ -9,9 +9,11 @@ from config import Config
 from models import db
 from routes import auth_bp, user_bp,test_bp,transactions_bp,bill_bp,reminders_bp,goals_bp,budget_bp,notifications_bp,receipts_bp,ml_bp
 from flask_mysqldb import MySQL
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(Config)
+CORS(app)
 
 db.init_app(app)
 jwt = JWTManager(app)
