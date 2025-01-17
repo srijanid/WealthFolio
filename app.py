@@ -10,6 +10,7 @@ from models import db
 from routes import auth_bp, user_bp,test_bp,transactions_bp,bill_bp,reminders_bp,goals_bp,budget_bp,notifications_bp,receipts_bp,ml_bp
 from flask_mysqldb import MySQL
 from flask_cors import CORS
+from routes.categories import categories_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -29,6 +30,7 @@ app.register_blueprint(user_bp, url_prefix='/user_redirect')
 app.register_blueprint(test_bp, url_prefix='/testing')
 app.register_blueprint(transactions_bp, url_prefix='/transactions')
 app.register_blueprint(bill_bp, url_prefix='/bills')
+app.register_blueprint(categories_bp, url_prefix='/categories')
 app.register_blueprint(reminders_bp, url_prefix='/reminders')
 app.register_blueprint(goals_bp, url_prefix='/goals')
 app.register_blueprint(budget_bp, url_prefix='/budgets')

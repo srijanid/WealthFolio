@@ -44,6 +44,7 @@ def update_profile(user_id):
     user.ZipCode = data.get('ZipCode', user.ZipCode)
     user.Country = data.get('Country', user.Country)
     user.PhoneNumber = data.get('PhoneNumber', user.PhoneNumber)
+    user.profile_image = data.get('profile_image', user.profile_image)
 
     try:
         db.session.commit()
