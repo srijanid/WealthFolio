@@ -1,6 +1,7 @@
 import datetime
 import uuid
 from flask import request, jsonify, redirect, url_for
+from middleware import verify_client_credentials
 from . import auth_bp
 from models import OAuth2Token, db, OAuth2Client, User
 from flask_jwt_extended import create_access_token, jwt_required
@@ -9,18 +10,10 @@ from urllib.parse import urlencode
 from models import db
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
-
-# Middleware to verify client credentials
-@auth_bp.before_app_request
-def verify_client_credentials():
-    if request.endpoint not in ['auth_bp.auth', 'auth_bp.register', 'auth_bp.signup', 'auth_bp.signin','user_bp.signout','auth_bp.profile','user_bp.profile']:
-        client_id = request.headers.get('Client-ID')
-        client_secret = request.headers.get('Client-Secret')
-        if not client_id or not client_secret:
-            return jsonify({"message": "Client credentials required"}), 401
-        client = OAuth2Client.query.filter_by(client_id=client_id, client_secret=client_secret).first()
-        if not client:
-            return jsonify({"message": "Invalid client credentials"}), 401
+@auth_bp.route('/protected', methods=['GET'])
+@verify_client_credentials
+def protected_route():
+    return jsonify({"message": "Client credentials verified successfully"}), 200
 
 # Routes
 @auth_bp.route('/auth', methods=['GET'])
@@ -47,6 +40,7 @@ def auth():
 
 
 @auth_bp.route('/register', methods=['GET'])
+@verify_client_credentials
 def register():
     client_id = request.args.get('client_id')
     client_secret = request.args.get('client_secret')
@@ -59,6 +53,7 @@ def register():
 
 
 @auth_bp.route('/signup', methods=['POST'])
+@verify_client_credentials
 def signup():
     data = request.get_json()
     if not data:
@@ -115,6 +110,7 @@ def signup():
     return jsonify({"message": "User registered successfully"}), 201
 
 @auth_bp.route('/signin', methods=['POST'])
+@verify_client_credentials
 def signin():
     data = request.get_json()
     
@@ -172,6 +168,7 @@ def signin():
     return jsonify(access_token=access_token),200
 
 @auth_bp.route('/profile', methods=['GET'])
+@verify_client_credentials
 @jwt_required()
 def get_profile():
     current_user_id = get_jwt_identity()
