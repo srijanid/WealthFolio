@@ -26,7 +26,7 @@ def home():
 
 # Register Blueprints
 app.register_blueprint(auth_bp, url_prefix='/auth_redirect')
-app.register_blueprint(user_bp, url_prefix='/user_redirect')
+# app.register_blueprint(user_bp, url_prefix='/user')
 app.register_blueprint(test_bp, url_prefix='/testing')
 app.register_blueprint(transactions_bp, url_prefix='/transactions')
 app.register_blueprint(bill_bp, url_prefix='/bills')
@@ -49,9 +49,9 @@ def queue():
 @app.route('/auth_redirect')
 def auth_redirect():
     return jsonify({"message": "This will redirect to authentication"}), 200
-@app.route('/user_redirect')
-def user_redirect():
-    return jsonify({"message": "This will redirect to user update"}), 200
+# @app.route('/user')
+# def user_redirect():
+#     return jsonify({"message": "This will redirect to user update"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

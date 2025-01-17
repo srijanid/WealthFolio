@@ -1,24 +1,18 @@
 import datetime
 from flask import request, jsonify, Blueprint
+from middleware import verify_client_credentials
 from models import OAuth2Token, db, User
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 user_bp = Blueprint('user_bp', __name__)
 
-@user_bp.route('/signout', methods=['POST'])
-@jwt_required()
-def signout():
-    current_user_id = get_jwt_identity()
-    jti = get_jwt()['jti']  # Get the unique identifier for the JWT
-    token = OAuth2Token.query.filter_by(UserID=current_user_id, access_token=jti).first()
+@user_bp.route('/test', methods=['GET'])
+def test():
+    return "Blueprint is working!"
 
-    if token:
-        token.revoked = True
-        token.access_token_revoked_at = int(datetime.datetime.utcnow().timestamp())
-        db.session.commit()
 
-    return jsonify({"message": "Signed out"}), 200
 
+<<<<<<< HEAD
 @user_bp.route('/profile/<int:user_id>', methods=['POST'])
 @jwt_required()
 def update_profile(user_id):
@@ -52,3 +46,5 @@ def update_profile(user_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": "Error updating profile", "error": str(e)}), 500
+=======
+>>>>>>> fork/main
