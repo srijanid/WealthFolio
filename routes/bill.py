@@ -1,12 +1,17 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from models import BillPayment
 from models import db
 from . import auth_bp
 
 #bill_bp = Blueprint('bill', __name__)
 
-@auth_bp.route('/bills', methods=['GET'])
+@auth_bp.route('/bills/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_bill_payments_for_user(user_id):
+    user_id = get_jwt_identity()  # Extract the user ID from the JWT token
+    if not user_id:
+        return jsonify({"error": "User not authenticated"}), 401
     # Retrieve all bill payments for a user
     bill_payments = BillPayment.query.filter_by(UserId=user_id).all()
     bill_payment_list = [{
