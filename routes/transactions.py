@@ -1,10 +1,11 @@
 from flask import Blueprint, request, jsonify
-from models import Transaction
+from models import Transaction, Category
 from models import db
+from . import auth_bp
 
-transactions_bp = Blueprint('transactions', __name__)
+#transactions_bp = Blueprint('transactions', __name__)
 
-@transactions_bp.route('/transactions', methods=['GET'])
+@auth_bp.route('/transactions', methods=['GET'])
 def get_transactions_for_user(user_id):
     # Retrieve all transactions for a user
     transactions = Transaction.query.filter_by(UserId=user_id).all()
@@ -20,7 +21,7 @@ def get_transactions_for_user(user_id):
     } for transaction in transactions]
     return jsonify(transaction_list), 200
 
-@transactions_bp.route('/transactions/<int:transaction_id>', methods=['GET'])
+@auth_bp.route('/transactions/<int:transaction_id>', methods=['GET'])
 def get_transaction(transaction_id):
     # Retrieve specific transaction by ID
     transaction = Transaction.query.get_or_404(transaction_id)
@@ -36,7 +37,7 @@ def get_transaction(transaction_id):
     }
     return jsonify(transaction_data), 200
 
-@transactions_bp.route('/transactions', methods=['POST'])
+@auth_bp.route('/transactions', methods=['POST'])
 def create_transaction():
     # Create new transaction
     data = request.json
@@ -51,7 +52,7 @@ def create_transaction():
     db.session.commit()
     return jsonify({'message': 'Transaction created', 'TransactionId': new_transaction.TransactionId}), 201
 
-@transactions_bp.route('/transactions/<int:transaction_id>', methods=['PUT'])
+@auth_bp.route('/transactions/<int:transaction_id>', methods=['PUT'])
 def update_transaction(transaction_id):
     # Update transaction
     transaction = Transaction.query.get_or_404(transaction_id)
@@ -66,7 +67,7 @@ def update_transaction(transaction_id):
     db.session.commit()
     return jsonify({'message': 'Transaction updated'}), 200
 
-@transactions_bp.route('/transactions/<int:transaction_id>', methods=['DELETE'])
+@auth_bp.route('/transactions/<int:transaction_id>', methods=['DELETE'])
 def delete_transaction(transaction_id):
     # Delete transaction
     transaction = Transaction.query.get_or_404(transaction_id)

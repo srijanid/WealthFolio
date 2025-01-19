@@ -237,3 +237,4 @@ def signout():
         db.session.commit()
 
     return jsonify({"message": "Signed out"}), 200
+    

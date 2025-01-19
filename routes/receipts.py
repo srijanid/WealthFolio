@@ -1,10 +1,11 @@
 from flask import Blueprint, request, jsonify
 from models import Receipt
 from models import db
+from . import auth_bp
 
-receipts_bp = Blueprint('receipts', __name__)
+#receipts_bp = Blueprint('receipts', __name__)
 
-@receipts_bp.route('/receipts', methods=['GET'])
+@auth_bp.route('/receipts', methods=['GET'])
 # Retrieve all receipts for a user
 def get_receipts_for_user(user_id):
     receipts = Receipt.query.filter_by(UserId=user_id).all()
@@ -20,7 +21,7 @@ def get_receipts_for_user(user_id):
     } for receipt in receipts]
     return jsonify(receipt_list), 200
 
-@receipts_bp.route('/receipts/<int:receipt_id>', methods=['GET'])
+@auth_bp.route('/receipts/<int:receipt_id>', methods=['GET'])
 def get_receipt(receipt_id):
     # Retrieve specific receipt
     receipt = Receipt.query.get_or_404(receipt_id)
@@ -36,7 +37,7 @@ def get_receipt(receipt_id):
     }
     return jsonify(receipt_data), 200
 
-@receipts_bp.route('/receipts', methods=['POST'])
+@auth_bp.route('/receipts', methods=['POST'])
 def create_receipt():
     # Create new receipt
     data = request.json
@@ -51,7 +52,7 @@ def create_receipt():
     db.session.commit()
     return jsonify({'message': 'Receipt created', 'ReceiptId': new_receipt.ReceiptId}), 201
 
-@receipts_bp.route('/receipts/<int:receipt_id>', methods=['PUT'])
+@auth_bp.route('/receipts/<int:receipt_id>', methods=['PUT'])
 def update_receipt(receipt_id):
     # Update receipt
     receipt = Receipt.query.get_or_404(receipt_id)
@@ -66,7 +67,7 @@ def update_receipt(receipt_id):
     db.session.commit()
     return jsonify({'message': 'Receipt updated'}), 200
 
-@receipts_bp.route('/receipts/<int:receipt_id>', methods=['DELETE'])
+@auth_bp.route('/receipts/<int:receipt_id>', methods=['DELETE'])
 def delete_receipt(receipt_id):
     # Delete receipt
     receipt = Receipt.query.get_or_404(receipt_id)

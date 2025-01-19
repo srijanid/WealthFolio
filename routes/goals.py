@@ -1,9 +1,10 @@
 from flask import Blueprint, request, jsonify
 from models import Goal, db
+from . import auth_bp
 
-goals_bp = Blueprint('goals', __name__)
+#goals_bp = Blueprint('goals', __name__)
 
-@goals_bp.route('/goals', methods=['GET'])
+@auth_bp.route('/goals', methods=['GET'])
 def get_goals():
     # Retrieve all goals from the database
     try:
@@ -12,7 +13,7 @@ def get_goals():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@goals_bp.route('/goals/<int:goal_id>', methods=['GET'])
+@auth_bp.route('/goals/<int:goal_id>', methods=['GET'])
 def get_goal(goal_id):
     # Retrieve specific goal by ID from the database
     try:
@@ -23,7 +24,7 @@ def get_goal(goal_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@goals_bp.route('/goals', methods=['POST'])
+@auth_bp.route('/goals', methods=['POST'])
 def create_goal():
     # Create a new goal and save it to the database
     data = request.json
@@ -42,7 +43,7 @@ def create_goal():
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
 
-@goals_bp.route('/goals/<int:goal_id>', methods=['PUT'])
+@auth_bp.route('/goals/<int:goal_id>', methods=['PUT'])
 def update_goal(goal_id):
     # Update an existing goal by ID
     data = request.json
@@ -62,7 +63,7 @@ def update_goal(goal_id):
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
 
-@goals_bp.route('/goals/<int:goal_id>', methods=['DELETE'])
+@auth_bp.route('/goals/<int:goal_id>', methods=['DELETE'])
 def delete_goal(goal_id):
     # Delete a specific goal by ID
     try:

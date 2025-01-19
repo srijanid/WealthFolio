@@ -51,6 +51,7 @@ class OAuth2Token(db.Model):
 class Category(db.Model):
     __tablename__ = 'categories'
     CategoryId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    UserId = db.Column(db.Integer, db.ForeignKey('users.UserID'))
     category_name = db.Column(db.String(50), nullable=False, unique=True)
     Description = db.Column(db.String(255))
     CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
@@ -59,8 +60,8 @@ class Category(db.Model):
 class Transaction(db.Model):
     __tablename__ = 'transactions'
     TransactionId = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    UserId = db.Column(db.Integer, db.ForeignKey('Users.UserId'))
-    CategoryId = db.Column(db.Integer, db.ForeignKey('Categories.CategoryId'))
+    UserId = db.Column(db.Integer, db.ForeignKey('users.UserID'))
+    CategoryId = db.Column(db.Integer, db.ForeignKey('categories.CategoryId'))
     Amount = db.Column(db.Numeric(10, 2), nullable=False)
     TransactionDate = db.Column(db.Date, nullable=False)
     Description = db.Column(db.String(255))
@@ -70,8 +71,8 @@ class Transaction(db.Model):
 class BillPayment(db.Model):
     __tablename__ = 'billpayments'
     BillId = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    UserId = db.Column(db.Integer, db.ForeignKey('Users.UserId'))
-    TransactionId = db.Column(db.Integer, db.ForeignKey('Transactions.TransactionId'))
+    UserId = db.Column(db.Integer, db.ForeignKey('users.UserID'))
+    TransactionId = db.Column(db.Integer, db.ForeignKey('transactions.TransactionId'))
     Amount = db.Column(db.Numeric(10, 2), nullable=False)
     Due_date = db.Column(db.Date, nullable=False)
     Paid_date = db.Column(db.Date)
@@ -83,8 +84,8 @@ class BillPayment(db.Model):
 class Reminder(db.Model):
     __tablename__ = 'reminders'
     ReminderId = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    UserId = db.Column(db.Integer, db.ForeignKey('Users.UserId'))
-    BillId = db.Column(db.Integer, db.ForeignKey('BillPayments.BillId'))
+    UserId = db.Column(db.Integer, db.ForeignKey('users.UserID'))
+    BillId = db.Column(db.Integer, db.ForeignKey('billpayments.BillId'))
     reminder_date = db.Column(db.Date, nullable=False)
     message = db.Column(db.String(255), nullable=False)
     CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
@@ -93,7 +94,7 @@ class Reminder(db.Model):
 class Goal(db.Model):
     __tablename__ = 'goals'
     GoalId = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    UserId = db.Column(db.Integer, db.ForeignKey('Users.UserId'))
+    UserId = db.Column(db.Integer, db.ForeignKey('users.UserID'))
     goal_name = db.Column(db.String(100), nullable=False)
     target_amount = db.Column(db.Numeric(10, 2), nullable=False)
     saved_amount = db.Column(db.Numeric(10, 2), default=0)
@@ -104,10 +105,10 @@ class Goal(db.Model):
 class Budget(db.Model):
     __tablename__ = 'budgets'
     BudgetId = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    UserID = db.Column(db.Integer, db.ForeignKey('Users.UserID'))
-    CategoryId = db.Column(db.Integer, db.ForeignKey('Categories.CategoryId'))
+    UserID = db.Column(db.Integer, db.ForeignKey('users.UserID'))
+    CategoryId = db.Column(db.Integer, db.ForeignKey('categories.CategoryId'))
     budget_amount = db.Column(db.Numeric(10, 2), nullable=False)
-    TransactionId = db.Column(db.Integer, db.ForeignKey('Transactions.TransactionId'))
+    TransactionId = db.Column(db.Integer, db.ForeignKey('transactions.TransactionId'))
     Amount = db.Column(db.Numeric(10, 2))
     description = db.Column(db.String(255))
     creation_date = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
@@ -118,8 +119,8 @@ class Budget(db.Model):
 class Receipt(db.Model):
     __tablename__ = 'receipts'
     ReceiptId = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    TransactionId = db.Column(db.Integer, db.ForeignKey('Transactions.TransactionId'))
-    UserId = db.Column(db.Integer, db.ForeignKey('Users.UserID'))
+    TransactionId = db.Column(db.Integer, db.ForeignKey('transactions.TransactionId'))
+    UserId = db.Column(db.Integer, db.ForeignKey('users.UserID'))
     Amount = db.Column(db.Numeric(10, 2), nullable=False)
     ReceiptDate = db.Column(db.Date, nullable=False)
     Description = db.Column(db.String(255))
@@ -129,7 +130,7 @@ class Receipt(db.Model):
 class Notification(db.Model):
     __tablename__ = 'notifications'
     NotificationId = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    UserId = db.Column(db.Integer, db.ForeignKey('Users.UserID'))
+    UserId = db.Column(db.Integer, db.ForeignKey('users.UserID'))
     message = db.Column(db.String(255), nullable=False)
     is_read = db.Column(db.Boolean, default=False)
     CreatedAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)

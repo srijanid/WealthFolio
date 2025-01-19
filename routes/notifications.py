@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify
 from models import Notification
 from models import db
+from . import auth_bp
 
-notifications_bp = Blueprint('notifications', __name__)
+#notifications_bp = Blueprint('notifications', __name__)
 
-@notifications_bp.route('/notifications', methods=['GET'])
-@notifications_bp.route('/notifications/user/<int:user_id>', methods=['GET'])
+@auth_bp.route('/notifications', methods=['GET'])
+@auth_bp.route('/notifications/user/<int:user_id>', methods=['GET'])
 def get_notifications_for_user(user_id):
     # Retrieve all notifications for a user
     notifications = Notification.query.filter_by(UserId=user_id).all()
@@ -19,7 +20,7 @@ def get_notifications_for_user(user_id):
     } for notification in notifications]
     return jsonify(notification_list), 200
 
-@notifications_bp.route('/notifications/<int:notification_id>', methods=['GET'])
+@auth_bp.route('/notifications/<int:notification_id>', methods=['GET'])
 def get_notification(notification_id):
     # Retrieve specific notification by ID
     notification = Notification.query.get_or_404(notification_id)
@@ -33,7 +34,7 @@ def get_notification(notification_id):
     }
     return jsonify(notification_data), 200
 
-@notifications_bp.route('/notifications', methods=['POST'])
+@auth_bp.route('/notifications', methods=['POST'])
 def create_notification():
     # Create new notification
     data = request.json
@@ -45,7 +46,7 @@ def create_notification():
     db.session.commit()
     return jsonify({'message': 'Notification created', 'NotificationId': new_notification.NotificationId}), 201
 
-@notifications_bp.route('/notifications/<int:notification_id>', methods=['PUT'])
+@auth_bp.route('/notifications/<int:notification_id>', methods=['PUT'])
 def update_notification(notification_id):
     # Update a notification (mark as read or update the message)
     notification = Notification.query.get_or_404(notification_id)
@@ -55,7 +56,7 @@ def update_notification(notification_id):
     db.session.commit()
     return jsonify({'message': 'Notification updated'}), 200
 
-@notifications_bp.route('/notifications/<int:notification_id>', methods=['DELETE'])
+@auth_bp.route('/notifications/<int:notification_id>', methods=['DELETE'])
 def delete_notification(notification_id):
     # Delete notification
     notification = Notification.query.get_or_404(notification_id)

@@ -1,10 +1,11 @@
 from flask import Blueprint, request, jsonify
 from models import BillPayment
 from models import db
+from . import auth_bp
 
-bill_bp = Blueprint('bill', __name__)
+#bill_bp = Blueprint('bill', __name__)
 
-@bill_bp.route('/bills', methods=['GET'])
+@auth_bp.route('/bills', methods=['GET'])
 def get_bill_payments_for_user(user_id):
     # Retrieve all bill payments for a user
     bill_payments = BillPayment.query.filter_by(UserId=user_id).all()
@@ -22,7 +23,7 @@ def get_bill_payments_for_user(user_id):
     } for bill_payment in bill_payments]
     return jsonify(bill_payment_list), 200
 
-@bill_bp.route('/bills/<int:bill_id>', methods=['GET'])
+@auth_bp.route('/bills/<int:bill_id>', methods=['GET'])
 def get_bill(bill_id):
     # Retrieve specific bill
     bill_payment = BillPayment.query.get_or_404(bill_id)
@@ -40,7 +41,7 @@ def get_bill(bill_id):
     }
     return jsonify(bill_payment_data), 200
 
-@bill_bp.route('/bills', methods=['POST'])
+@auth_bp.route('/bills', methods=['POST'])
 def create_bill():
     # Create new bill
     data = request.json
@@ -57,7 +58,7 @@ def create_bill():
     db.session.commit()
     return jsonify({'message': 'Bill payment created', 'BillId': new_bill_payment.BillId}), 201
 
-@bill_bp.route('/bills/<int:bill_id>', methods=['PUT'])
+@auth_bp.route('/bills/<int:bill_id>', methods=['PUT'])
 def update_bill(bill_id):
     # Update bill
     bill_payment = BillPayment.query.get_or_404(bill_id)
@@ -74,7 +75,7 @@ def update_bill(bill_id):
     db.session.commit()
     return jsonify({'message': 'Bill payment updated'}), 200
 
-@bill_bp.route('/bills/<int:bill_id>', methods=['DELETE'])
+@auth_bp.route('/bills/<int:bill_id>', methods=['DELETE'])
 def delete_bill(bill_id):
     # Delete bill
     bill_payment = BillPayment.query.get_or_404(bill_id)

@@ -2,10 +2,11 @@ from flask import Blueprint, request, jsonify
 from models import Budget
 from models import db
 import datetime
+from . import auth_bp
 
-budget_bp = Blueprint('budget', __name__)
+#budget_bp = Blueprint('budget', __name__)
 
-@budget_bp.route('/budgets', methods=['GET'])
+@auth_bp.route('/budgets', methods=['GET'])
 def get_budgets():
     # Retrieve all budgets
      budgets = Budget.query.all()
@@ -25,7 +26,7 @@ def get_budgets():
     
      return jsonify(budget_list), 200
 
-@budget_bp.route('/budgets/<int:budget_id>', methods=['GET'])
+@auth_bp.route('/budgets/<int:budget_id>', methods=['GET'])
 def get_budget(budget_id):
     # Retrieve specific budget
     budget = Budget.query.get_or_404(budget_id)
@@ -45,7 +46,7 @@ def get_budget(budget_id):
     
     return jsonify(budget_data), 200
 
-@budget_bp.route('/budgets', methods=['POST'])
+@auth_bp.route('/budgets', methods=['POST'])
 def create_budget():
     # Create new budget
     data = request.json
@@ -65,7 +66,7 @@ def create_budget():
     
     return jsonify({'message': 'New budget created', 'BudgetId': new_budget.BudgetId}), 201
 
-@budget_bp.route('/budgets/<int:budget_id>', methods=['PUT'])
+@auth_bp.route('/budgets/<int:budget_id>', methods=['PUT'])
 def update_budget(budget_id):
     # Update budget
     budget = Budget.query.get_or_404(budget_id)
@@ -84,7 +85,7 @@ def update_budget(budget_id):
     
     return jsonify({'message': 'Budget updated'}), 200
 
-@budget_bp.route('/budgets/<int:budget_id>', methods=['DELETE'])
+@auth_bp.route('/budgets/<int:budget_id>', methods=['DELETE'])
 def delete_budget(budget_id):
     # Delete budget
     budget = Budget.query.get_or_404(budget_id)
