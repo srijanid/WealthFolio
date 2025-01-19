@@ -163,7 +163,7 @@ def signin():
         token_type='Bearer',
         access_token=access_token,
         issued_at=int(datetime.datetime.utcnow().timestamp()),
-        expires_in=3600  # 1 hour expiration time
+        expires_in=86400  # 24 hour expiration time
     )
     db.session.add(new_token)
     db.session.commit()
